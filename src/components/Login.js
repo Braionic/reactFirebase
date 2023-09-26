@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/config';
+import { redirect } from 'react-router-dom';
 export default function Login() {
     const [email, setemail] = useState('')
     const [password, setpassword] = useState('')
@@ -16,7 +17,12 @@ export default function Login() {
     }
     async function handlesubmit(e){
         e.preventDefault()
-        signInWithEmailAndPassword(auth, email, password).then((data)=> console.log(data)).catch((err)=> console.log(err.message))
+        signInWithEmailAndPassword(auth, email, password).then((data)=> {
+            console.log(data)
+            const response = redirect("/host");
+            response.body = true; // It's silly, but it worksdf
+            return response; 
+    }).catch((err)=> console.log(err.message))
     }
   return (
     <div>

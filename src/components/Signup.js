@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../config/config';
 export default function Signup() {
     const [email, setemail] = useState('')
@@ -19,8 +19,11 @@ export default function Signup() {
        
         createUserWithEmailAndPassword(auth, email, password ).then((data)=> console.log(data.user)).catch((err)=> console.log(err.message))
      }
-    
-     console.log(email, password)
+     const provider = new GoogleAuthProvider();
+     async function handlegoogle(e){
+        e.preventDefault()
+        await signInWithPopup(auth, provider).then((data)=> console.log(data)).catch((err)=> console.log(err.message))
+     }
   return (
     <div>
         
@@ -30,7 +33,7 @@ export default function Signup() {
     <form onSubmit={handlesubmit}>
         <input type='email' value={FormData.email} placeholder='Email' name='email' onChange={handleemail} required/><br></br>
         <input type='password' value={FormData.password} placeholder='Password' name='password' onChange={handlepassword} required/>
-        <button>Sign Up</button>
+        <button>Sign Up</button>|<button onClick={handlegoogle}>Signu uaing google</button>
         </form>
     </div>
 </div>
