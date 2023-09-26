@@ -2,32 +2,29 @@ import React, { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/config';
 export default function Login() {
-    const [formData, setformData] = useState({
-        email: '',
-        password: ''
-    })
+    const [email, setemail] = useState('')
+    const [password, setpassword] = useState('')
 
-    function handleChange(e){
+    function handleemail(e){
         e.preventDefault()
-        const {name, value} = e.target;
-        
-       return setformData((oldval)=>{
-            return {...oldval, name: value}
-        })
-        
+        setemail(e.target.value)
+    }
+    
+    function handlepassword(e){
+        e.preventDefault()
+        setpassword(e.target.value)
     }
     async function handlesubmit(e){
         e.preventDefault()
-        signInWithEmailAndPassword(auth, formData.email, formData.password).then((data)=> console.log(data)).catch((err)=> console.log(err.message))
+        signInWithEmailAndPassword(auth, email, password).then((data)=> console.log(data)).catch((err)=> console.log(err.message))
     }
-    console.log(formData)
   return (
     <div>
         <div className='formcontainer'>
         <h1>Login</h1>
         <form onSubmit={handlesubmit}>
-            <input type='email' value={FormData.email} placeholder='Email' name='email' onChange={handleChange} /><br></br>
-            <input type='password' value={FormData.password} placeholder='Password' name='password' onChange={handleChange} />
+            <input type='email' value={FormData.email} placeholder='Email' name='email' onChange={handleemail} /><br></br>
+            <input type='password' value={FormData.password} placeholder='Password' name='password' onChange={handlepassword} />
             <button>Log In</button>
             </form>
         </div>
